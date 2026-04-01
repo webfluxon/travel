@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Liviel Tours | Visa, Insurance & Currency Exchange</title>
+    <!-- Bootstrap 5 CSS + Icons + Google Fonts + AOS + SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafd;
+            color: #0a2540;
+            overflow-x: hidden;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(230, 126, 34, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 126, 34, 0); }
+        }
+
+        .glow-btn { animation: glowPulse 2s infinite; }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+            padding: 0.7rem 0;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #0f2b3d, #1b6b8f, #e67e22);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            position: relative;
+            color: #1e4663 !important;
+            cursor: pointer;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #e67e22, #f39c12);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+        /* Hamburger icon - removed outline on focus */
+        .navbar-toggler {
+            border: none;
+            padding: 0;
+            transition: all 0.2s;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        
+        .navbar-toggler:focus,
+        .navbar-toggler:active,
+        .navbar-toggler:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+        
+        .hamburger-icon {
+            width: 32px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+        }
+        .hamburger-icon span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: #e67e22;
+            border-radius: 4px;
+            transition: 0.25s ease-in-out;
+        }
+        .hamburger-icon span:nth-child(1) { top: 0px; }
+        .hamburger-icon span:nth-child(2) { top: 10px; }
+        .hamburger-icon span:nth-child(3) { top: 20px; }
+        .hamburger-icon.open span:nth-child(1) { top: 10px; transform: rotate(135deg); }
+        .hamburger-icon.open span:nth-child(2) { opacity: 0; left: -20px; }
+        .hamburger-icon.open span:nth-child(3) { top: 10px; transform: rotate(-135deg); }
+
+        .btn-modern {
+            background: linear-gradient(95deg, #e67e22, #f39c12);
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 12px 32px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 18px rgba(230, 126, 34, 0.3);
+        }
+        .btn-modern:hover { transform: translateY(-3px); background: linear-gradient(95deg, #d35400, #e67e22); color: white; }
+
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 1030;
+            background: #25D366;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            box-shadow: 0 8px 22px rgba(37, 211, 102, 0.4);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+        .floating-whatsapp:hover { transform: scale(1.05); background: #1da851; color: white; }
+
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(12px);
+                border-radius: 24px;
+                padding: 20px;
+                margin-top: 12px;
+                box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+            }
+        }
+
+        /* Visa Banner with Airplane Background + Dark Overlay */
+        .visa-travel-banner {
+            position: relative;
+            border-radius: 2rem;
+            overflow: hidden;
+        }
+        
+        .visa-travel-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1600&h=600&fit=crop');
+            background-size: cover;
+            background-position: center 30%;
+            background-repeat: no-repeat;
+            z-index: 0;
+            transition: transform 0.4s ease;
+        }
+        
+        /* Dark overlay for better text contrast */
+        .visa-travel-banner::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.65), rgba(0,0,0,0.55));
+            z-index: 1;
+        }
+        
+        .visa-travel-banner:hover::before {
+            transform: scale(1.02);
+        }
+        
+        .visa-banner-content {
+            position: relative;
+            z-index: 3;
+            border-radius: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .visa-travel-banner::before {
+                background-position: 35% 30%;
+            }
+        }
+        
+        /* Currency Section */
+        .currency-masterpiece {
+            background: linear-gradient(145deg, #0a1f2c 0%, #0e2a3a 100%);
+            border-radius: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .custom-exchange-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.2));
+            transition: all 0.3s ease;
+        }
+        
+        .custom-exchange-svg:hover {
+            transform: scale(1.01);
+        }
+        
+        .feature-grid-modern {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-item-premium {
+            text-align: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 1.2rem;
+            backdrop-filter: blur(4px);
+            min-width: 150px;
+            border-bottom: 2px solid #e67e22;
+            transition: all 0.3s;
+        }
+        
+        .feature-item-premium:hover {
+            background: rgba(230,126,34,0.2);
+            transform: translateY(-3px);
+        }
+        
+        .feature-item-premium i {
+            font-size: 1.6rem;
+            color: #f39c12;
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+        
+        .action-area {
+            background: linear-gradient(95deg, rgba(230,126,34,0.15), rgba(243,156,18,0.08));
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            text-align: center;
+        }
+        
+        .btn-glow-exchange {
+            background: linear-gradient(95deg, #e67e22, #f39c12);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 60px;
+            transition: 0.2s;
+            color: white;
+            box-shadow: 0 0 15px rgba(230,126,34,0.4);
+        }
+        
+        .btn-glow-exchange:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(230,126,34,0.6);
+        }
+        
+        @media (max-width: 768px) {
+            .feature-item-premium { min-width: 130px; padding: 0.6rem; }
+            .feature-item-premium i { font-size: 1.3rem; }
+        }
+        
+        /* service cards */
+        .service-card {
+            background: white;
+            border-radius: 28px;
+            transition: all 0.4s;
+            border: none;
+            overflow: hidden;
+            box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+        .service-card:hover { transform: translateY(-12px); box-shadow: 0 28px 40px -16px rgba(0, 0, 0, 0.2); }
+        .card-img-custom { height: 220px; object-fit: cover; transition: transform 0.6s; width: 100%; }
+        .service-card:hover .card-img-custom { transform: scale(1.05); }
+        
+        footer { background: #0b2b3b; color: #cddfe7; border-radius: 2rem 2rem 0 0; }
+        
+        .hero-section {
+            background: linear-gradient(125deg, #eef5fc 0%, #ffffff 70%);
+            padding: 4rem 0;
+        }
+        
+        .section-anchor {
+            scroll-margin-top: 85px;
+        }
+    </style>
+</head>
+<body>
+
+<a href="https://wa.me/971528892781?text=Hello%20Liviel%20Tours" class="floating-whatsapp" target="_blank">
+    <i class="fab fa-whatsapp fa-lg"></i> Chat Now
+</a>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#"><span class="logo-text"><i class="fas fa-globe-asia me-2" style="color:#e67e22;"></i>LIVIEL</span><small class="d-block text-muted" style="font-size: 0.65rem;">TOURS & TRAVELS</small></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" id="menuToggle">
+            <div class="hamburger-icon" id="hamburgerIcon"><span></span><span></span><span></span></div>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="mainNavbar">
+            <ul class="navbar-nav gap-2 align-items-center">
+                <li class="nav-item"><a class="nav-link" data-section="home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" data-section="services">Services</a></li>
+                <li class="nav-item"><a class="nav-link" data-section="visa-offer">60 Days Visa</a></li>
+                <li class="nav-item"><a class="nav-link" data-section="insurance">Insurance</a></li>
+                <li class="nav-item"><a class="nav-link" data-section="exchange">Currency</a></li>
+                <li class="nav-item"><a class="nav-link" data-section="contact">Contact</a></li>
+                <li class="nav-item ms-lg-2"><span class="badge bg-light text-dark p-2 rounded-pill"><i class="fas fa-phone-alt text-warning"></i> +971 52 889 2781</span></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="hero-section" id="home">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="badge bg-warning bg-opacity-25 text-dark px-3 py-2 rounded-pill mb-3"><i class="fas fa-award me-1"></i> Trusted UAE Partner</div>
+                <h1 class="display-4 fw-bold mb-3">Your Gateway to <span class="text-warning">Dubai</span> & Beyond</h1>
+                <p class="lead mb-4">Fast-track visas, residency, insurance & instant M-Pesa exchange.</p>
+                <button class="btn btn-modern glow-btn" onclick="showVisaOffer()"><i class="fas fa-ticket-alt me-2"></i> Grab 60-Day Visa Offer</button>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left"><img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=650&h=480&fit=crop" alt="Dubai" class="img-fluid rounded-4 shadow"></div>
+        </div>
+    </div>
+</section>
+
+<!-- VISA BANNER WITH AIRPLANE BACKGROUND + DARK OVERLAY -->
+<div class="container mt-4" id="visa-offer">
+    <div class="visa-travel-banner rounded-4" data-aos="zoom-in">
+        <div class="visa-banner-content p-4 p-lg-5 d-flex flex-wrap justify-content-between align-items-center">
+            <div class="text-white">
+                <h2 class="fw-bold text-white mb-2" style="text-shadow: 0 2px 8px rgba(0,0,0,0.5);"><i class="fas fa-hourglass-half fa-1x"></i> LIMITED 60 DAYS VISA</h2>
+                <p class="mb-0 fs-5" style="text-shadow: 0 1px 4px rgba(0,0,0,0.5);">Total: 1250 AED <span class="text-decoration-line-through opacity-75">(Deposit refundable 970 AED)</span> • Same-day approval</p>
+                <p class="small mt-2 opacity-90"><i class="fas fa-check-circle me-1"></i> Fast track entry • Return ticket flexible</p>
+            </div>
+            <div class="mt-3 mt-lg-0">
+                <button class="btn btn-light rounded-pill fw-bold px-4 py-2 shadow-lg" onclick="showBookingAlert()" style="background: white; color: #e67e22; border: none;">
+                    <i class="fas fa-calendar-check me-2"></i> Book Instantly
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5 pt-4" id="services">
+    <div class="text-center mb-5" data-aos="fade-up"><span class="badge bg-warning bg-opacity-15 text-warning px-4 py-2 rounded-pill">Premium Services</span><h2 class="display-6 fw-bold mt-2">End-to-End Solutions</h2></div>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4" data-aos="flip-up" data-aos-delay="100"><div class="service-card"><img src="https://images.unsplash.com/photo-1589561454226-796a8aa89b05?w=500&h=220&fit=crop" class="card-img-custom"><div class="p-4"><h3 class="fs-4 fw-bold"><i class="fas fa-id-card text-warning me-2"></i> UAE Residence Visa</h3><p>Full Inclusion: Offer Letter, Medical, Biometrics, Emirates ID.</p><button class="btn btn-outline-warning rounded-pill w-100 mt-2" onclick="showResidenceInquiry()">Apply Now →</button></div></div></div>
+        <div class="col-md-6 col-lg-4" data-aos="flip-up" data-aos-delay="200"><div class="service-card"><img src="https://images.unsplash.com/photo-1546412414-e1885259563a?w=500&h=220&fit=crop" class="card-img-custom"><div class="p-4"><h3 class="fs-4 fw-bold"><i class="fas fa-plane-departure text-warning me-2"></i> 60 Days Tourist Visa</h3><p>Same Day Approval, Return ticket optional.</p><button class="btn btn-outline-warning rounded-pill w-100 mt-2" onclick="showTouristVisa()">Book 60-Day Visa</button></div></div></div>
+        <div class="col-md-6 col-lg-4" data-aos="flip-up" data-aos-delay="300" id="insurance"><div class="service-card"><img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&h=220&fit=crop" class="card-img-custom"><div class="p-4"><h3 class="fs-4 fw-bold"><i class="fas fa-ambulance text-warning me-2"></i> Medical Insurance</h3><p>Up to 1,000,000 AED coverage • Emergency 80% covered.</p><button class="btn btn-outline-warning rounded-pill w-100 mt-2" onclick="showInsuranceMpesa()">Get Quote →</button></div></div></div>
+    </div>
+</div>
+
+<!-- CURRENCY SECTION WITH PERFECTLY CENTERED CIRCLE (CENTER OF DASHED LINE) -->
+<div class="container my-5" id="exchange">
+    <div class="currency-masterpiece p-4 p-md-4" data-aos="zoom-in-up">
+        <div class="text-center">
+            <h3 class="text-white fw-bold">Instant Dirham → Kenyan Shilling Exchange</h3>
+            <p class="text-white-50">Zero transaction fees · Instant transfers via M-Pesa · Near Union Metro</p>
+        </div>
+
+        <!-- Custom SVG - PERFECTLY CENTERED: Circle aligned exactly to the middle of the dashed connecting line -->
+        <div class="row justify-content-center my-3">
+            <div class="col-12 col-md-10 col-lg-9">
+                <svg class="custom-exchange-svg w-100" viewBox="0 0 720 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <linearGradient id="uaeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#e67e22"/>
+                            <stop offset="100%" stop-color="#f39c12"/>
+                        </linearGradient>
+                        <linearGradient id="kenyaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#2ecc71"/>
+                            <stop offset="100%" stop-color="#27ae60"/>
+                        </linearGradient>
+                        <filter id="softShadow" x="-0.02" y="-0.02" width="1.04" height="1.04">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="1.5"/>
+                            <feOffset dx="1" dy="1" result="offsetblur"/>
+                            <feComponentTransfer><feFuncA type="linear" slope="0.2"/></feComponentTransfer>
+                            <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                    </defs>
+                    
+                    <!-- UAE Dirham Card -->
+                    <g filter="url(#softShadow)">
+                        <rect x="10" y="25" width="180" height="100" rx="20" fill="url(#uaeGrad)" stroke="#fff" stroke-width="1.5" opacity="0.95"/>
+                        <text x="100" y="58" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Inter, sans-serif">UNITED ARAB EMIRATES</text>
+                        <text x="100" y="85" text-anchor="middle" fill="#FFE0A3" font-size="30" font-weight="800" font-family="Inter, sans-serif">AED 1</text>
+                        <text x="100" y="112" text-anchor="middle" fill="white" font-size="9" font-family="Inter, sans-serif">ONE DIRHAM</text>
+                        <circle cx="28" cy="95" r="5" fill="#FFD966" opacity="0.6"/>
+                        <circle cx="172" cy="95" r="5" fill="#FFD966" opacity="0.6"/>
+                    </g>
+                    
+                    <!-- Kenyan Shilling Card with M-Pesa -->
+                    <g filter="url(#softShadow)">
+                        <rect x="530" y="25" width="180" height="100" rx="20" fill="url(#kenyaGrad)" stroke="#fff" stroke-width="1.5" opacity="0.95"/>
+                        <text x="620" y="58" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Inter, sans-serif">REPUBLIC OF KENYA</text>
+                        <text x="620" y="85" text-anchor="middle" fill="#F9E79F" font-size="30" font-weight="800" font-family="Inter, sans-serif">ksh 350</text>
+                        <text x="620" y="112" text-anchor="middle" fill="white" font-size="8" font-family="Inter, sans-serif">THREE HUNDRED FIFTY SHILLINGS</text>
+                        <text x="580" y="42" fill="#F9E79F" font-size="11" font-family="monospace" font-weight="bold">✆ M-PESA</text>
+                        <circle cx="650" cy="98" r="7" fill="#F9E79F" opacity="0.5"/>
+                        <text x="648" y="103" fill="#2c3e50" font-size="10" text-anchor="middle">📱</text>
+                    </g>
+                    
+                    <!-- Dashed connecting line from card edge to card edge -->
+                    <path d="M190 75 L200 75 L520 75 L530 75" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6 5" opacity="0.7"/>
+                    
+                    <!-- Circle PERFECTLY CENTERED on the dashed line (midpoint between 200 and 520 = 360) -->
+                    <g transform="translate(360, 75)">
+                        <!-- Main circle centered exactly on the line -->
+                        <circle cx="0" cy="0" r="38" fill="#ffffff" stroke="#e67e22" stroke-width="2.8" filter="url(#softShadow)"/>
+                        <!-- Dual arrow design - symmetrical and centered -->
+                        <path d="M-12 0 L-2 -10 L8 0 L-2 10 Z" fill="#e67e22"/>
+                        <path d="M12 0 L2 -10 L-8 0 L2 10 Z" fill="#f39c12" opacity="0.85"/>
+                        <!-- 35 rate - perfectly inside circle below arrow -->
+                        <text x="0" y="12" text-anchor="middle" fill="#e67e22" font-size="18" font-weight="800" font-family="Inter, sans-serif">.</text>
+                        <!-- RATE label inside circle below rate -->
+                        <text x="0" y="28" text-anchor="middle" fill="#e67e22" font-size="18" font-weight="600" font-family="Inter, sans-serif">35</text>
+                    </g>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Feature Grid - Clean & Modern -->
+        <div class="feature-grid-modern">
+            <div class="feature-item-premium">
+                <i class="fas fa-bolt"></i>
+                <h6 class="text-white mb-0">Instant Transfer</h6>
+                <small class="text-white-50">Dial *73# or visit us</small>
+            </div>
+            <div class="feature-item-premium">
+                <i class="fas fa-hand-holding-usd"></i>
+                <h6 class="text-white mb-0">Zero Fees</h6>
+                <small class="text-white-50">No hidden charges</small>
+            </div>
+            <div class="feature-item-premium">
+                <i class="fas fa-map-marker-alt"></i>
+                <h6 class="text-white mb-0">Baniyas Metro</h6>
+                <small class="text-white-50">Sheikha Maryiam Bldg P114</small>
+            </div>
+            <div class="feature-item-premium">
+                <i class="fas fa-subway"></i>
+                <h6 class="text-white mb-0">Union Metro Kiosk</h6>
+                <small class="text-white-50">Cash exchange point</small>
+            </div>
+        </div>
+        
+        <!-- Action Area -->
+        <div class="action-area">
+            <p class="text-white-50 small mb-2"><i class="fas fa-clock me-1"></i> Open Daily · Fast & Secure</p>
+            <button class="btn-glow-exchange" onclick="showMpesaAlert()">
+                <i class="fab fa-mpesa me-2"></i> Exchange Dirham to KSH Now
+            </button>
+            <p class="text-white-50 small mt-2 mb-0">✔ Instant M-Pesa credit ✔ Competitive rates</p>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div class="container my-5" id="contact">
+    <div class="bg-white p-4 p-lg-5 rounded-4 shadow" data-aos="zoom-in-up">
+        <div class="row g-5">
+            <div class="col-lg-5"><h3 class="fw-bold"><i class="fas fa-headset text-warning"></i> Reach Us</h3><p>24/7 support for visa, travel & M-Pesa services.</p>
+                <p><i class="fas fa-phone-alt text-warning me-3"></i> <strong>+971 52 889 2781</strong> (UAE)</p>
+                <p><i class="fab fa-whatsapp text-success me-3"></i> <strong>+254 705 859 796</strong> (WhatsApp / M-Pesa)</p>
+                <p><i class="fas fa-envelope text-warning me-3"></i> livieltourstravel@gmail.com</p>
+                <p><i class="fas fa-building me-3"></i> Baniyas Metro: Sheikha Maryiam Building P114, Dubai</p>
+            </div>
+            <div class="col-lg-7"><h4 class="fw-semibold">Send Inquiry</h4>
+                <form id="leadFormModern"><div class="row g-3"><div class="col-md-6"><input type="text" class="form-control rounded-pill" placeholder="Full name" id="fullNameModern" required></div><div class="col-md-6"><input type="tel" class="form-control rounded-pill" placeholder="Phone" id="phoneModern" required></div><div class="col-12"><input type="email" class="form-control rounded-pill" placeholder="Email"></div><div class="col-12"><textarea class="form-control rounded-4" rows="3" placeholder="Your request..."></textarea></div><div class="col-12"><button type="submit" class="btn btn-modern w-100 rounded-pill">Submit Request</button></div></div></form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="pt-4 pb-3 mt-5 text-center"><div class="container"><p><i class="far fa-copyright"></i> 2025 LIVIEL TOURS & TRAVELS — Visa & Travel Partner in Dubai</p><p class="small">📍 Baniyas Metro, Sheikha Maryiam Building P114 | 📞 +971528892781</p></div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 800, once: true });
+    
+    function showVisaOffer() { Swal.fire({ title: '🔥 60 Days Visa', html: 'Total: 1250 AED (Deposit refundable 970 AED)', icon: 'info', confirmButtonColor: '#e67e22' }).then(()=>{ window.open('https://wa.me/971528892781?text=60-day%20visa','_blank'); }); }
+    function showBookingAlert() { Swal.fire({ title: 'Ready to book?', text: 'Contact +971528892781', icon: 'success' }); }
+    function showResidenceInquiry() { Swal.fire({ title: 'Residence Visa', text: 'Our agent will reach out.', icon: 'info' }).then(()=>{ window.open('https://wa.me/971528892781?text=Residence%20visa','_blank'); }); }
+    function showTouristVisa() { Swal.fire({ title: '60-Day Visa', text: 'Same day approval!', icon: 'info' }).then(()=>{ window.open('https://wa.me/971528892781?text=60-day%20tourist','_blank'); }); }
+    function showInsuranceMpesa() { Swal.fire({ title: 'Medical Insurance', text: 'Contact us for insurance plans up to 1M AED coverage.', icon: 'info' }).then(()=>{ window.open('https://wa.me/971526006681?text=Insurance','_blank'); }); }
+    function showMpesaAlert() { Swal.fire({ title: '💱 Dirham to Kenyan Shilling', text: 'Best rate 1 AED = 35 KSH. Zero fees. Visit Baniyas Metro or dial *73#', icon: 'success', confirmButtonText: 'OK' }); }
+    
+    document.getElementById('leadFormModern')?.addEventListener('submit', function(e) { e.preventDefault(); let name = document.getElementById('fullNameModern')?.value.trim(); if(!name) { Swal.fire('Info', 'Please enter name', 'warning'); return; } Swal.fire('✅ Request Sent!', `Thanks ${name}, we'll contact you soon.`, 'success'); this.reset(); });
+    
+    function scrollToSection(sectionId) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            const offset = 85;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - offset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+    }
+    
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const section = this.getAttribute('data-section');
+            if (section) scrollToSection(section);
+            const navbarCollapse = document.getElementById('mainNavbar');
+            const hamburgerIcon = document.getElementById('hamburgerIcon');
+            if (navbarCollapse.classList.contains('show')) {
+                bootstrap.Collapse.getInstance(navbarCollapse)?.hide();
+                hamburgerIcon.classList.remove('open');
+            }
+        });
+    });
+    
+    const sections = ['home', 'services', 'visa-offer', 'insurance', 'exchange', 'contact'];
+    window.addEventListener('scroll', () => {
+        let current = '';
+        const scrollPos = window.scrollY + 100;
+        for (let section of sections) {
+            const element = document.getElementById(section);
+            if (element) {
+                const offsetTop = element.offsetTop;
+                const offsetHeight = element.offsetHeight;
+                if (scrollPos >= offsetTop && scrollPos < offsetTop + offsetHeight) {
+                    current = section;
+                    break;
+                }
+            }
+        }
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-section') === current) link.classList.add('active');
+        });
+    });
+    
+    const menuToggle = document.getElementById('menuToggle');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const navbarCollapse = document.getElementById('mainNavbar');
+    if(menuToggle){
+        menuToggle.addEventListener('click',()=>{ hamburgerIcon.classList.toggle('open'); });
+    }
+    document.addEventListener('click', function(e) {
+        if(navbarCollapse && menuToggle && !navbarCollapse.contains(e.target) && !menuToggle.contains(e.target) && navbarCollapse.classList.contains('show')){
+            bootstrap.Collapse.getInstance(navbarCollapse)?.hide();
+            hamburgerIcon.classList.remove('open');
+        }
+    });
+</script>
+</body>
+</html>
